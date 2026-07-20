@@ -1,0 +1,534 @@
+[
+	{
+		"name": "ai-sdk:llm",
+		"title": "LLM call",
+		"description": "A Vercel AI SDK language model call",
+		"params_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"result_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"template": "{{ inputs[\"ai.prompt\"].last.content.first.text | truncate: 80, \"…\" }} → {{ outputs[\"ai.response.text\"] | split: \"\\n\" | first | strip | truncate: 80, \"…\" }}",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "disallowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "allowed"
+			},
+			"params_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	},
+	{
+		"name": "ai-sdk:tool",
+		"title": "Tool call",
+		"description": "A Vercel AI SDK tool execution",
+		"params_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"result_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"template": "Run tool {{ inputs[\"ai.tool.name\"] | default: \"tool\" }} → {{ outputs.output.value.label | default: \"completed\" }}",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "allowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "disallowed"
+			},
+			"params_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "internal",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "excluded",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "excluded",
+				"organisational_confidential": "excluded",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	},
+	{
+		"name": "ai-sdk:agent",
+		"title": "Agent run",
+		"description": "A Vercel AI SDK agent execution",
+		"params_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"result_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"template": "Start agent run → finished",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "allowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "allowed"
+			},
+			"params_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	},
+	{
+		"name": "prefactor:quality",
+		"title": "User feedback",
+		"description": "Thumbs up/down quality signal with selected reasons and optional comment",
+		"params_schema": {
+			"type": "object",
+			"properties": {
+				"feedback": {
+					"type": "object",
+					"properties": {
+						"scope": {
+							"type": "string"
+						},
+						"session_id": {
+							"type": "string"
+						},
+						"message_id": {
+							"type": "string"
+						},
+						"message_content": {
+							"type": ["string", "null"]
+						},
+						"rating": {
+							"type": "string",
+							"enum": ["up", "down"]
+						},
+						"session_name": {
+							"type": ["string", "null"]
+						},
+						"message_count": {
+							"type": ["number", "null"]
+						},
+						"reasons": {
+							"type": ["array", "null"],
+							"items": {
+								"type": "string"
+							}
+						},
+						"reason_labels": {
+							"type": ["array", "null"],
+							"items": {
+								"type": "string"
+							}
+						},
+						"comment": {
+							"type": ["string", "null"]
+						}
+					},
+					"required": ["rating"]
+				}
+			},
+			"required": ["feedback"]
+		},
+		"result_schema": {
+			"type": "object",
+			"properties": {
+				"feedback": {
+					"type": "object",
+					"properties": {
+						"recorded": {
+							"type": "boolean"
+						},
+						"scope": {
+							"type": "string"
+						},
+						"session_id": {
+							"type": "string"
+						},
+						"message_id": {
+							"type": "string"
+						},
+						"rating": {
+							"type": "string",
+							"enum": ["up", "down"]
+						},
+						"reasons": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"reason_labels": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"comment": {
+							"type": ["string", "null"]
+						}
+					},
+					"required": ["recorded", "rating"]
+				}
+			},
+			"required": ["feedback"]
+		},
+		"template": "{% if inputs.feedback.rating == \"up\" %}👍 Positive{% else %}👎 Negative{% endif %} feedback for {{ inputs.feedback.message_id | default: \"message\" }}{% if inputs.feedback.session_name %} — {{ inputs.feedback.session_name }}{% endif %}{% if inputs.feedback.reasons %} · {{ inputs.feedback.reasons | join: \", \" }}{% endif %}{% if inputs.feedback.comment %} · \"{{ inputs.feedback.comment | truncate: 60, \"…\" }}\"{% endif %}",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "allowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "disallowed"
+			},
+			"params_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "internal",
+				"personal_identifiers": "excluded",
+				"contact_information": "excluded",
+				"financial_information": "excluded",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "excluded",
+				"organisational_confidential": "excluded",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	},
+	{
+		"name": "chatbot:chat",
+		"title": "Support chat",
+		"description": "Foreground support assistant response",
+		"params_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"result_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"template": "Support chat session {{ inputs.chat.session_id | default: \"unknown\" }}",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "disallowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "allowed"
+			},
+			"params_data_categories": {
+				"classification": "internal",
+				"personal_identifiers": "excluded",
+				"contact_information": "excluded",
+				"financial_information": "excluded",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "excluded",
+				"organisational_confidential": "excluded",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "internal",
+				"personal_identifiers": "excluded",
+				"contact_information": "excluded",
+				"financial_information": "excluded",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "excluded",
+				"organisational_confidential": "excluded",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "excluded",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	},
+	{
+		"name": "chatbot:support-investigation",
+		"title": "Support investigation",
+		"description": "Background support investigation dispatch",
+		"params_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"result_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"template": "Investigate {{ inputs.support.issue_type | default: \"support issue\" }}",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "allowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "disallowed"
+			},
+			"params_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "unknown",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "internal",
+				"personal_identifiers": "excluded",
+				"contact_information": "excluded",
+				"financial_information": "excluded",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "excluded",
+				"organisational_confidential": "excluded",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	},
+	{
+		"name": "chatbot:support-subagent",
+		"title": "Support sub-agent",
+		"description": "Background support sub-agent run",
+		"params_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"result_schema": {
+			"type": "object",
+			"additionalProperties": true
+		},
+		"template": "Support sub-agent · {{ inputs.support.issue_type | default: \"issue\" }}",
+		"data_risk": {
+			"action_profile": {
+				"create_data": "allowed",
+				"read_data": "allowed",
+				"update_data": "disallowed",
+				"destroy_data": "disallowed",
+				"financial_transactions": "disallowed",
+				"external_communication": "allowed"
+			},
+			"params_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "included",
+				"financial_information": "included",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			},
+			"result_data_categories": {
+				"classification": "confidential",
+				"personal_identifiers": "unknown",
+				"contact_information": "unknown",
+				"financial_information": "included",
+				"health_and_medical": "excluded",
+				"criminal_justice": "excluded",
+				"authentication_and_secrets": "unknown",
+				"organisational_confidential": "included",
+				"minors_data": "excluded",
+				"location_and_tracking": "excluded",
+				"behavioural_and_inferred": "included",
+				"gdpr_racial_or_ethnic_origin": "excluded",
+				"gdpr_political_opinions": "excluded",
+				"gdpr_religious_or_philosophical_beliefs": "excluded",
+				"gdpr_trade_union_membership": "excluded",
+				"gdpr_genetic_data": "excluded",
+				"gdpr_biometric_for_identification": "excluded",
+				"gdpr_sex_life_or_sexual_orientation": "excluded"
+			}
+		}
+	}
+]

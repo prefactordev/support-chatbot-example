@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+body {
+	background: #0a0a0a;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background: rgba(163, 163, 163, 0.35);
+	color: inherit;
+}
+
+* {
+	scrollbar-color: rgba(163, 163, 163, 0.45) transparent;
+	scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+	height: 12px;
+	width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-clip: padding-box;
+	background-color: rgba(163, 163, 163, 0.35);
+	border: 3px solid transparent;
+	border-radius: 9999px;
+}
