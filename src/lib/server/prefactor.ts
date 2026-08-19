@@ -15,10 +15,12 @@ import {
 import type { SensitiveTraceSpan, TraceSpan } from './prefactor-contracts';
 import { createRegistrationGuard } from './prefactor-sdk-lifecycle';
 import { getServerConfig } from './application-config';
+import { QUALITY_SCHEMAS } from './evaluation/quality-schemas';
 
 const AGENT_SCHEMA = {
 	external_identifier: 'ai-sdk-schema-v7',
-	span_type_schemas: spanTypeSchemas
+	span_type_schemas: spanTypeSchemas,
+	quality_schemas: QUALITY_SCHEMAS
 };
 
 function createRuntime(params: {
@@ -77,6 +79,10 @@ function createRuntime(params: {
 			}
 		},
 		getAgentInstanceId: () => core.agentManager.getAgentInstanceId(),
+		submitQuality(name: string, qualityPayload: Record<string, unknown>) {
+			ensureRegistered();
+			core.agentManager.recordQuality({ name, payload: qualityPayload });
+		},
 		async finishRun() {
 			await provider.shutdown();
 			core.terminationMonitor.reset();
@@ -138,6 +144,9 @@ export const prefactorSessions = {
 	},
 	traceSensitive<T>(sessionId: string, options: SensitiveSpanOptions<T>, fn: () => Promise<T> | T) {
 		return mainSessionRuntimes.acquire(sessionId).traceSensitive(options, fn);
+	},
+	submitQuality(sessionId: string, name: string, qualityPayload: Record<string, unknown>) {
+		return mainSessionRuntimes.acquire(sessionId).submitQuality(name, qualityPayload);
 	},
 	finish(sessionId: string) {
 		return mainSessionRuntimes.finish(sessionId);

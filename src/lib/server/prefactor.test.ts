@@ -154,6 +154,7 @@ test('reuses a Prefactor runtime for multiple messages in the same chat session'
 			traceSensitive: async (_options, fn) => fn(),
 			chatStream: async (_options, fn) => fn(() => events.push(`end:${id}`)),
 			getAgentInstanceId: () => id,
+			submitQuality: () => {},
 			finishRun: async () => {
 				events.push(`finish:${id}`);
 			}
@@ -193,6 +194,7 @@ test('finish waits for Prefactor shutdown and evicts only the completed session'
 			traceSensitive: async (_options, fn) => fn(),
 			chatStream: async (_options, fn) => fn(() => undefined),
 			getAgentInstanceId: () => id,
+			submitQuality: () => {},
 			finishRun: () =>
 				new Promise<void>((resolve) => {
 					shutdownResolvers.set(id, () => {
@@ -231,6 +233,7 @@ test('prune awaits idle runtime shutdown before removing it', async () => {
 			traceSensitive: async (_options, fn) => fn(),
 			chatStream: async (_options, fn) => fn(() => undefined),
 			getAgentInstanceId: () => null,
+			submitQuality: () => {},
 			finishRun: () =>
 				new Promise<void>((resolve) => {
 					releaseShutdown = () => {

@@ -13,7 +13,7 @@ const handleFeedback = createFeedbackHandler(async (payload) => {
 		payload.sessionId,
 		{
 			name: 'chatbot:message-feedback',
-			spanType: 'prefactor:quality',
+			spanType: 'chatbot:quality',
 			inputs: {
 				feedback: {
 					scope: 'assistant_message',

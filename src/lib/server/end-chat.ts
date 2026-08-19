@@ -10,7 +10,26 @@ export type EndChatMessage = {
 export type EndChatDependencies = {
 	generateFarewell: (sessionId: string, messages: EndChatMessage[]) => AsyncIterable<string>;
 	finishSession: (sessionId: string) => Promise<void>;
+	evaluateSession?: (sessionId: string, messages: EndChatMessage[]) => Promise<void>;
 };
+
+const EVALUATION_TIMEOUT_MS = 60_000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+	return new Promise<T>((resolve, reject) => {
+		const timer = setTimeout(() => reject(new Error('Evaluation timed out')), timeoutMs);
+		promise.then(
+			(value) => {
+				clearTimeout(timer);
+				resolve(value);
+			},
+			(error) => {
+				clearTimeout(timer);
+				reject(error);
+			}
+		);
+	});
+}
 
 export function createEndChatHandler(deps: EndChatDependencies) {
 	return async (request: Request): Promise<Response> => {
@@ -34,11 +53,22 @@ export function createEndChatResponse(
 			} catch {
 				// Completing the chat is authoritative even when the optional farewell fails.
 			} finally {
-				try {
+				const evaluateSession = deps.evaluateSession;
+				if (evaluateSession) {
+					void (async () => {
+						try {
+							await withTimeout(
+								evaluateSession(request.sessionId, request.messages),
+								EVALUATION_TIMEOUT_MS
+							);
+						} finally {
+							await deps.finishSession(request.sessionId);
+						}
+					})().catch(() => undefined);
+				} else {
 					await deps.finishSession(request.sessionId);
-				} finally {
-					controller.close();
 				}
+				controller.close();
 			}
 		}
 	});

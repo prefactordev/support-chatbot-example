@@ -19,5 +19,6 @@ export type PrefactorRuntime = {
 		run: (end: (status: ChatStatus) => void) => Promise<T>
 	) => Promise<T>;
 	getAgentInstanceId: () => string | null;
+	submitQuality: (name: string, qualityPayload: Record<string, unknown>) => void;
 	finishRun: () => Promise<void>;
 };

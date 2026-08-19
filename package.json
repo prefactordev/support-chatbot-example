@@ -36,9 +36,10 @@
 	"dependencies": {
 		"@ai-sdk/anthropic": "^3.0.80",
 		"@ai-sdk/svelte": "^4.0.191",
+		"@arizeai/phoenix-evals": "^1.2.0",
 		"@lucide/svelte": "^1.16.0",
-		"@prefactor/ai": "^0.3.3",
-		"@prefactor/core": "^0.4.2",
+		"@prefactor/ai": "^2.0.0",
+		"@prefactor/core": "^1.1.0",
 		"ai": "^6.0.191",
 		"dompurify": "^3.4.12",
 		"idb": "^8.0.3",

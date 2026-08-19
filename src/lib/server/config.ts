@@ -23,6 +23,7 @@ export type ServerConfig = {
 		logLevel: string;
 	};
 	supportAgent?: SupportAgentConfig;
+	evalEnabled: boolean;
 };
 
 export function parseServerConfig(environment: Record<string, string | undefined>): ServerConfig {
@@ -44,7 +45,8 @@ export function parseServerConfig(environment: Record<string, string | undefined
 			agentIdentifier: clean(environment.PREFACTOR_AGENT_IDENTIFIER) ?? '1.0.0',
 			logLevel: clean(environment.PREFACTOR_LOG_LEVEL) ?? 'info'
 		},
-		supportAgent: readSupportAgent(environment)
+		supportAgent: readSupportAgent(environment),
+		evalEnabled: readBoolean(environment.EVAL_ENABLED) ?? true
 	};
 }
 
@@ -65,4 +67,12 @@ function readSupportAgent(
 function clean(value: string | undefined): string | undefined {
 	const cleaned = value?.trim();
 	return cleaned || undefined;
+}
+
+function readBoolean(value: string | undefined): boolean | undefined {
+	const cleaned = value?.trim().toLowerCase();
+	if (!cleaned) return undefined;
+	if (cleaned === 'true' || cleaned === '1') return true;
+	if (cleaned === 'false' || cleaned === '0') return false;
+	throw new Error(`Invalid boolean value: ${value}`);
 }
