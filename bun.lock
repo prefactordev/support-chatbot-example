@@ -10,7 +10,7 @@
         "@arizeai/phoenix-evals": "^1.2.0",
         "@lucide/svelte": "^1.16.0",
         "@prefactor/ai": "^2.0.0",
-        "@prefactor/core": "^1.0.0",
+        "@prefactor/core": "^1.1.0",
         "ai": "^6.0.191",
         "dompurify": "^3.4.12",
         "idb": "^8.0.3",
@@ -90,7 +90,7 @@
 
     "@prefactor/ai": ["@prefactor/ai@2.0.0", "", { "dependencies": { "@prefactor/pfid": "^0.1.0" }, "peerDependencies": { "@prefactor/core": "^1.0.0", "ai": "^4.0.0 || ^5.0.0 || ^6.0.0" } }, "sha512-M+M22ZiUAU+tlnZj8ELyKcab8N4V6ekLxki1vRlKsKEVAgWMf8Ud/bZWCK1DUOSJMuqL13odXhGc8v7+AVPYGA=="],
 
-    "@prefactor/core": ["@prefactor/core@1.0.0", "", { "dependencies": { "@prefactor/pfid": "^0.1.0" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-PIfkmrI9dXM2PCiFGZ3yrusoTc/IVOTFnJBEwiSLiI/IbjIbRUut5gw746JQ3ZAw9BGmA4aFnURir4A3CSn2PQ=="],
+    "@prefactor/core": ["@prefactor/core@1.1.0", "", { "dependencies": { "@prefactor/pfid": "^0.1.0" }, "peerDependencies": { "zod": "^4.0.0" } }, "sha512-0aZbPn58ixB60iA2buZ4gVn/UBl+nyyhI8zyrIXZs0+Z2mHWR0snFcLjeq/JAxk4Lh0AffDDcWyzHY7FeYbBnQ=="],
 
     "@prefactor/pfid": ["@prefactor/pfid@0.1.0", "", {}, "sha512-39nHAYgYlSuc1zHKa9jMdNdsobKJ3AElGcPGc9Vvk0oLf1CQ7WNrZ1P4JCVuSzgbz5mszKFCBoJCej00ogBKHA=="],
 
