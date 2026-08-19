@@ -92,12 +92,17 @@ test('the HTTP handler rejects malformed JSON without invoking dependencies', as
 	assert.equal(invoked, false);
 });
 
-test('runs evaluation before finishing the session without blocking the response', async () => {
+test('response completes before evaluation resolves, then finishes the session', async () => {
 	const events: string[] = [];
+	let resolveEvaluation: () => void = () => undefined;
+	const evaluation = new Promise<void>((resolve) => {
+		resolveEvaluation = resolve;
+	});
 	let resolveFinished: () => void = () => undefined;
 	const finished = new Promise<void>((resolve) => {
 		resolveFinished = resolve;
 	});
+
 	const response = createEndChatResponse(
 		{ sessionId: 'session-1', messages },
 		{
@@ -110,11 +115,17 @@ test('runs evaluation before finishing the session without blocking the response
 			},
 			evaluateSession: async (sessionId) => {
 				events.push(`evaluate:${sessionId}`);
+				await evaluation;
 			}
 		}
 	);
 
+	// The response completes without waiting for the pending evaluation.
 	assert.equal(await response.text(), 'Bye');
+	assert.deepEqual(events, ['evaluate:session-1']);
+
+	// Releasing the evaluation lets finishSession run afterward.
+	resolveEvaluation();
 	await finished;
 	assert.deepEqual(events, ['evaluate:session-1', 'finish:session-1']);
 });

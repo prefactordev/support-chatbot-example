@@ -13,6 +13,24 @@ export type EndChatDependencies = {
 	evaluateSession?: (sessionId: string, messages: EndChatMessage[]) => Promise<void>;
 };
 
+const EVALUATION_TIMEOUT_MS = 60_000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+	return new Promise<T>((resolve, reject) => {
+		const timer = setTimeout(() => reject(new Error('Evaluation timed out')), timeoutMs);
+		promise.then(
+			(value) => {
+				clearTimeout(timer);
+				resolve(value);
+			},
+			(error) => {
+				clearTimeout(timer);
+				reject(error);
+			}
+		);
+	});
+}
+
 export function createEndChatHandler(deps: EndChatDependencies) {
 	return async (request: Request): Promise<Response> => {
 		const parsed = await parseJsonRequest(request, parseEndChatRequest, validationMessage);
@@ -39,7 +57,10 @@ export function createEndChatResponse(
 				if (evaluateSession) {
 					void (async () => {
 						try {
-							await evaluateSession(request.sessionId, request.messages);
+							await withTimeout(
+								evaluateSession(request.sessionId, request.messages),
+								EVALUATION_TIMEOUT_MS
+							);
 						} finally {
 							await deps.finishSession(request.sessionId);
 						}

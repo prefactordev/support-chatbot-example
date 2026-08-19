@@ -115,7 +115,7 @@ export function createPhoenixJudges(model: LanguageModel): Record<string, Judge>
 export function createConversationEvaluator(judges: Record<string, Judge>) {
 	return async (messages: EndChatMessage[]): Promise<ConversationEvaluation[]> => {
 		const transcript = buildTranscript(messages);
-		return Promise.all(
+		const settled = await Promise.allSettled(
 			Object.entries(judges).map(async ([name, judge]) => {
 				const result = await judge(transcript);
 				return {
@@ -126,5 +126,12 @@ export function createConversationEvaluator(judges: Record<string, Judge>) {
 				};
 			})
 		);
+
+		return settled
+			.filter(
+				(entry): entry is PromiseFulfilledResult<ConversationEvaluation> =>
+					entry.status === 'fulfilled'
+			)
+			.map((entry) => entry.value);
 	};
 }

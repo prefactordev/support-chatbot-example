@@ -69,3 +69,10 @@ test('enables LLM evaluation by default and honors EVAL_ENABLED', () => {
 	assert.equal(parseServerConfig({ ...requiredEnv, EVAL_ENABLED: 'true' }).evalEnabled, true);
 	assert.equal(parseServerConfig({ ...requiredEnv, EVAL_ENABLED: '1' }).evalEnabled, true);
 });
+
+test('rejects an unrecognized EVAL_ENABLED value', () => {
+	assert.throws(
+		() => parseServerConfig({ ...requiredEnv, EVAL_ENABLED: 'fales' }),
+		/Invalid boolean value/
+	);
+});

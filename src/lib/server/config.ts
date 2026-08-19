@@ -71,7 +71,8 @@ function clean(value: string | undefined): string | undefined {
 
 function readBoolean(value: string | undefined): boolean | undefined {
 	const cleaned = value?.trim().toLowerCase();
+	if (!cleaned) return undefined;
 	if (cleaned === 'true' || cleaned === '1') return true;
 	if (cleaned === 'false' || cleaned === '0') return false;
-	return undefined;
+	throw new Error(`Invalid boolean value: ${value}`);
 }

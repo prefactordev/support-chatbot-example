@@ -43,3 +43,16 @@ test('defaults missing verdict, score, and explanation', async () => {
 		{ name: 'only', verdict: '', score: 0, explanation: '' }
 	]);
 });
+
+test('keeps fulfilled results when one judge rejects', async () => {
+	const evaluate = createConversationEvaluator({
+		resolution: async () => ({ label: 'resolved', score: 1, explanation: 'ok' }),
+		helpfulness: async () => {
+			throw new Error('judge failed');
+		}
+	});
+
+	assert.deepEqual(await evaluate(messages), [
+		{ name: 'resolution', verdict: 'resolved', score: 1, explanation: 'ok' }
+	]);
+});
