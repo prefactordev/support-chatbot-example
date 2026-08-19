@@ -10,6 +10,7 @@ export type EndChatMessage = {
 export type EndChatDependencies = {
 	generateFarewell: (sessionId: string, messages: EndChatMessage[]) => AsyncIterable<string>;
 	finishSession: (sessionId: string) => Promise<void>;
+	evaluateSession?: (sessionId: string, messages: EndChatMessage[]) => Promise<void>;
 };
 
 export function createEndChatHandler(deps: EndChatDependencies) {
@@ -34,11 +35,19 @@ export function createEndChatResponse(
 			} catch {
 				// Completing the chat is authoritative even when the optional farewell fails.
 			} finally {
-				try {
+				const evaluateSession = deps.evaluateSession;
+				if (evaluateSession) {
+					void (async () => {
+						try {
+							await evaluateSession(request.sessionId, request.messages);
+						} finally {
+							await deps.finishSession(request.sessionId);
+						}
+					})().catch(() => undefined);
+				} else {
 					await deps.finishSession(request.sessionId);
-				} finally {
-					controller.close();
 				}
+				controller.close();
 			}
 		}
 	});

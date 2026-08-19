@@ -2,6 +2,12 @@ import { convertToModelMessages, streamText, wrapLanguageModel, type UIMessage }
 import { createEndChatHandler } from '$lib/server/end-chat';
 import { createChatModel } from '$lib/server/model';
 import { prefactorSessions } from '$lib/server/prefactor';
+import { getServerConfig } from '$lib/server/application-config';
+import {
+	createConversationEvaluator,
+	createPhoenixJudges
+} from '$lib/server/evaluation/conversation-evaluator';
+import { createEvaluationRecorder } from '$lib/server/evaluation/record-evaluation';
 import { cleanupSupportSession } from '$lib/server/support/support-session-cleanup';
 
 const FAREWELL_INSTRUCTIONS = `You are closing a Northstar Cloud support conversation.
@@ -27,6 +33,16 @@ const handleEndChat = createEndChatHandler({
 	async finishSession(sessionId) {
 		await cleanupSupportSession(sessionId);
 		await prefactorSessions.finish(sessionId);
+	},
+	async evaluateSession(sessionId, messages) {
+		if (!getServerConfig().evalEnabled) return;
+		const evaluate = createConversationEvaluator(createPhoenixJudges(createChatModel()));
+		const record = createEvaluationRecorder({
+			evaluate,
+			submitQuality: (sessionId, name, qualityPayload) =>
+				prefactorSessions.submitQuality(sessionId, name, qualityPayload)
+		});
+		await record(sessionId, messages);
 	}
 });
 

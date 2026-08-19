@@ -61,3 +61,11 @@ test('uses the configured support Prefactor agent identifier', () => {
 
 	assert.equal(config.supportAgent?.agentIdentifier, '2.0.0');
 });
+
+test('enables LLM evaluation by default and honors EVAL_ENABLED', () => {
+	assert.equal(parseServerConfig(requiredEnv).evalEnabled, true);
+	assert.equal(parseServerConfig({ ...requiredEnv, EVAL_ENABLED: 'false' }).evalEnabled, false);
+	assert.equal(parseServerConfig({ ...requiredEnv, EVAL_ENABLED: '0' }).evalEnabled, false);
+	assert.equal(parseServerConfig({ ...requiredEnv, EVAL_ENABLED: 'true' }).evalEnabled, true);
+	assert.equal(parseServerConfig({ ...requiredEnv, EVAL_ENABLED: '1' }).evalEnabled, true);
+});

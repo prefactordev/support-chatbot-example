@@ -91,3 +91,54 @@ test('the HTTP handler rejects malformed JSON without invoking dependencies', as
 	assert.deepEqual(await response.json(), { error: 'Invalid request' });
 	assert.equal(invoked, false);
 });
+
+test('runs evaluation before finishing the session without blocking the response', async () => {
+	const events: string[] = [];
+	let resolveFinished: () => void = () => undefined;
+	const finished = new Promise<void>((resolve) => {
+		resolveFinished = resolve;
+	});
+	const response = createEndChatResponse(
+		{ sessionId: 'session-1', messages },
+		{
+			generateFarewell: async function* () {
+				yield 'Bye';
+			},
+			finishSession: async (sessionId) => {
+				events.push(`finish:${sessionId}`);
+				resolveFinished();
+			},
+			evaluateSession: async (sessionId) => {
+				events.push(`evaluate:${sessionId}`);
+			}
+		}
+	);
+
+	assert.equal(await response.text(), 'Bye');
+	await finished;
+	assert.deepEqual(events, ['evaluate:session-1', 'finish:session-1']);
+});
+
+test('evaluation failure still finishes the session and closes the response', async () => {
+	let resolveFinished: () => void = () => undefined;
+	const finished = new Promise<void>((resolve) => {
+		resolveFinished = resolve;
+	});
+	const response = createEndChatResponse(
+		{ sessionId: 'session-1', messages },
+		{
+			generateFarewell: async function* () {
+				yield 'Bye';
+			},
+			finishSession: async () => {
+				resolveFinished();
+			},
+			evaluateSession: async () => {
+				throw new Error('eval failed');
+			}
+		}
+	);
+
+	assert.equal(await response.text(), 'Bye');
+	await finished;
+});
