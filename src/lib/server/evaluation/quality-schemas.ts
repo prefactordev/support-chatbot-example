@@ -23,6 +23,7 @@ export const QUALITY_SCHEMAS: QualitySchema[] = [
 				},
 				explanation: {
 					type: 'string',
+					'prefactor:format': 'markdown',
 					title: 'Explanation',
 					description: "The judge's reasoning for the verdict, grounded in the conversation."
 				}
@@ -54,6 +55,7 @@ export const QUALITY_SCHEMAS: QualitySchema[] = [
 				},
 				explanation: {
 					type: 'string',
+					'prefactor:format': 'markdown',
 					title: 'Explanation',
 					description: "The judge's reasoning for the verdict, grounded in the conversation."
 				}
@@ -86,6 +88,7 @@ export const QUALITY_SCHEMAS: QualitySchema[] = [
 				},
 				explanation: {
 					type: 'string',
+					'prefactor:format': 'markdown',
 					title: 'Explanation',
 					description: "The judge's reasoning for the verdict, grounded in the conversation."
 				}
@@ -118,6 +121,7 @@ export const QUALITY_SCHEMAS: QualitySchema[] = [
 				},
 				explanation: {
 					type: 'string',
+					'prefactor:format': 'markdown',
 					title: 'Explanation',
 					description: "The judge's reasoning for the verdict, grounded in the conversation."
 				}
