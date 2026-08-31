@@ -18,7 +18,7 @@ import { getServerConfig } from './application-config';
 import { QUALITY_SCHEMAS } from './evaluation/quality-schemas';
 
 const AGENT_SCHEMA = {
-	external_identifier: 'ai-sdk-schema-v10',
+	external_identifier: 'ai-sdk-schema-v11',
 	span_type_schemas: spanTypeSchemas,
 	quality_schemas: QUALITY_SCHEMAS
 };
