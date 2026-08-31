@@ -12,7 +12,7 @@ test('Prefactor schemas are owned by production code', async () => {
 	await access(canonicalSchema);
 });
 
-test('AI SDK span templates address literal dotted telemetry keys', async () => {
+test('AI SDK span templates address both flat and nested telemetry keys', async () => {
 	const schemas = JSON.parse(await readFile(canonicalSchema, 'utf8')) as Array<{
 		name: string;
 		template?: string;
@@ -21,7 +21,10 @@ test('AI SDK span templates address literal dotted telemetry keys', async () => 
 	const toolTemplate = schemas.find((schema) => schema.name === 'ai-sdk:tool')?.template ?? '';
 
 	assert.match(llmTemplate, /inputs\["ai\.prompt"\]/);
+	assert.match(llmTemplate, /inputs\.ai\.prompt/);
 	assert.match(llmTemplate, /outputs\["ai\.response\.text"\]/);
+	assert.match(llmTemplate, /outputs\.ai\.response\.text/);
 	assert.match(toolTemplate, /inputs\["ai\.tool\.name"\]/);
+	assert.match(toolTemplate, /inputs\.ai\.tool\.name/);
 	assert.match(toolTemplate, /outputs\.output\.value\.label/);
 });

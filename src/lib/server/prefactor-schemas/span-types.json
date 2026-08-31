@@ -11,7 +11,7 @@
 			"type": "object",
 			"additionalProperties": true
 		},
-		"template": "{{ inputs[\"ai.prompt\"].last.content.first.text | truncate: 80, \"…\" }} → {{ outputs[\"ai.response.text\"] | split: \"\\n\" | first | strip | truncate: 80, \"…\" }}",
+		"template": "{% if inputs[\"ai.prompt\"].last.content.first.text %}{{ inputs[\"ai.prompt\"].last.content.first.text | truncate: 80, \"…\" }}{% else %}{% if inputs[\"ai.prompt\"].last.role == \"tool\" %}tool result: {{ inputs[\"ai.prompt\"].last.content.first.toolName }}{% else %}{% if inputs.ai.prompt.last.role == \"tool\" %}tool result: {{ inputs.ai.prompt.last.content.first.toolName }}{% else %}{{ inputs[\"ai.prompt\"].last.content.first.text | default: inputs.ai.prompt.last.content.first.text | truncate: 80, \"…\" }}{% endif %}{% endif %}{% endif %} → {{ outputs[\"ai.response.text\"] | default: outputs.ai.response.text | split: \"\n\" | first | strip | truncate: 80, \"…\" }}",
 		"data_risk": {
 			"action_profile": {
 				"create_data": "disallowed",
@@ -75,7 +75,7 @@
 			"type": "object",
 			"additionalProperties": true
 		},
-		"template": "Run tool {{ inputs[\"ai.tool.name\"] | default: \"tool\" }} → {{ outputs.output.value.label | default: \"completed\" }}",
+		"template": "Run tool {{ inputs[\"ai.tool.name\"] | default: inputs.ai.tool.name | default: \"tool\" }} → {{ outputs.output.value.label | default: \"completed\" }}",
 		"data_risk": {
 			"action_profile": {
 				"create_data": "allowed",
