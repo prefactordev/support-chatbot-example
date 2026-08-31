@@ -9,6 +9,7 @@ type PayloadSchema = {
 		string,
 		{
 			type: string;
+			'prefactor:format'?: string;
 			enum?: (string | number)[];
 			title?: string;
 			description?: string;
@@ -41,6 +42,7 @@ test('each quality schema declares a strict, human-readable payload contract', (
 		assert.equal(payload.properties.verdict.type, 'string');
 		assert.equal(payload.properties.verdict.enum?.length, 2);
 		assert.equal(payload.properties.explanation.type, 'string');
+		assert.equal(payload.properties.explanation['prefactor:format'], 'markdown');
 
 		for (const field of Object.values(payload.properties)) {
 			assert.equal(typeof field.title, 'string');
